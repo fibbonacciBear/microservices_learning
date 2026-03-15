@@ -1,0 +1,66 @@
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:80"
+    depends_on:
+      menu-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+      kitchen-service:
+        condition: service_healthy
+      notification-service:
+        condition: service_healthy
+
+  menu-service:
+    build: ./menu-service
+    volumes:
+      - menu-data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5001/menu')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  order-service:
+    build: ./order-service
+    volumes:
+      - order-data:/app/data
+    environment:
+      MENU_SERVICE_URL: http://menu-service:5001
+      KITCHEN_SERVICE_URL: http://kitchen-service:5003
+      NOTIFICATION_SERVICE_URL: http://notification-service:5004
+      DATABASE_PATH: /app/data/orders.db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5002/orders')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  kitchen-service:
+    build: ./kitchen-service
+    volumes:
+      - kitchen-data:/app/data
+    environment:
+      ORDER_SERVICE_URL: http://order-service:5002
+      NOTIFICATION_SERVICE_URL: http://notification-service:5004
+      DATABASE_PATH: /app/data/kitchen.db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5003/kitchen/queue')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  notification-service:
+    build: ./notification-service
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5004/notifications')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  menu-data:
+  order-data:
+  kitchen-data:

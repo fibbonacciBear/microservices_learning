@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pizza Shop</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Pizza Shop Monolith</p>
+          <h1>One app, one process, one shared database.</h1>
+          <p class="hero-copy">
+            Browse pizzas, place orders, start cooking, and watch notifications
+            update in the same FastAPI app.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p>Cart total</p>
+          <strong id="cart-total-hero">$0.00</strong>
+          <span id="cart-count-hero">0 items selected</span>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Primary">
+        <button class="tab-button active" data-tab="menu">Menu</button>
+        <button class="tab-button" data-tab="order">Place Order</button>
+        <button class="tab-button" data-tab="orders">My Orders</button>
+        <button class="tab-button" data-tab="kitchen">Kitchen</button>
+        <button class="tab-button" data-tab="notifications">Notifications</button>
+      </nav>
+
+      <section id="message-banner" class="message-banner hidden"></section>
+
+      <main>
+        <section class="tab-panel active" data-panel="menu">
+          <div class="panel-header">
+            <div>
+              <h2>Menu</h2>
+              <p>Pick pizzas to add to your order.</p>
+            </div>
+            <button id="refresh-menu" class="ghost-button">Refresh</button>
+          </div>
+          <div id="menu-grid" class="menu-grid"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="order">
+          <div class="panel-header">
+            <div>
+              <h2>Place Order</h2>
+              <p>Adjust quantities, then submit the cart.</p>
+            </div>
+          </div>
+          <div class="two-column">
+            <div class="card">
+              <h3>Current Cart</h3>
+              <div id="cart-items" class="stack"></div>
+            </div>
+            <div class="card emphasis">
+              <h3>Checkout</h3>
+              <p id="cart-summary">No items selected.</p>
+              <button id="place-order" class="primary-button">Place Order</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" data-panel="orders">
+          <div class="panel-header">
+            <div>
+              <h2>My Orders</h2>
+              <p>Track the full order lifecycle.</p>
+            </div>
+            <button id="refresh-orders" class="ghost-button">Refresh</button>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Placed</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body"></tbody>
+            </table>
+          </div>
+          <div id="order-detail" class="card hidden"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="kitchen">
+          <div class="panel-header">
+            <div>
+              <h2>Kitchen</h2>
+              <p>Kick off the deliberate 5-second cooking delay.</p>
+            </div>
+            <button id="refresh-kitchen" class="ghost-button">Refresh</button>
+          </div>
+          <div id="kitchen-queue" class="stack"></div>
+        </section>
+
+        <section class="tab-panel" data-panel="notifications">
+          <div class="panel-header">
+            <div>
+              <h2>Notifications</h2>
+              <p>Auto-refreshes every 3 seconds.</p>
+            </div>
+            <button id="refresh-notifications" class="ghost-button">Refresh</button>
+          </div>
+          <div id="notifications-feed" class="stack"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>
