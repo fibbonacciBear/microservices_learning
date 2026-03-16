@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pizza-shop-config
+data:
+  MENU_SERVICE_URL: "http://menu-service"
+  KITCHEN_SERVICE_URL: "http://kitchen-service"
+  NOTIFICATION_SERVICE_URL: "http://notification-service"
+  ORDER_SERVICE_URL: "http://order-service"
+  DATABASE_PATH: "/app/data/app.db"
+  RECONCILE_INTERVAL_SECONDS: "30"
+  REQUEST_TIMEOUT_SECONDS: "3"
+  NOTIFICATION_TIMEOUT_SECONDS: "2"
